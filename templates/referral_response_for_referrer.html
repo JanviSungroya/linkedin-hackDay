@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Referral Requests</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .header {
+            background-color: #0073b1;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header-title {
+            font-size: 1.5em;
+            margin: 0;
+        }
+        .profile {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        .profile:last-child {
+            border-bottom: none;
+        }
+        .profile img {
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
+        }
+        .profile-info {
+            flex-grow: 1;
+        }
+        .profile-info h2 {
+            margin: 0;
+            font-size: 1.2em;
+        }
+        .profile-info p {
+            margin: 5px 0;
+            color: #666;
+        }
+        .request-button {
+            background-color: #0073b1;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .request-button:hover {
+            background-color: #005b8c;
+        }
+    </style>
+
+    <script>
+        function changeButtonText(button) {
+            button.innerHTML = "Requested Referral";
+            button.disabled = true;
+        }
+    </script>
+
+</head>
+<body>
+    <div class="header">
+        <h1 class="header-title">Referral Requests left</h1>
+    </div>
+    <div class="container">
+        <div class="profile">
+            <img src="{{ url_for('static', filename='images/Sameer-Rastogi.png') }}" alt="Profile Image">
+            <div class="profile-info">
+                <h2>Sameer Rastogi</h2>
+                <p>SWE @ Microsoft</p>
+                <p>Hyderabad</p>
+            </div>
+            <form action="/request_referral_to_referrer" method="POST" onsubmit="changeButtonText(this.querySelector('button'))">
+                <input type="hidden" name="name" value="Sameer Rastogi">
+                <button class="request-button" type="submit">Request Referral</button>
+            </form>
+        </div>
+        <div class="profile">
+            <img  src="{{ url_for('static', filename='images/saharsh.jpg') }}" alt="Profile Image">
+            <div class="profile-info">
+                <h2>Saharsh Jaiswal</h2>
+                <p>Software Engineer @ Microsoft | NIT Durgapur</p>
+                <p>Hyderabad</p>
+            </div>
+            <form action="/request_referral_to_referrer" method="POST"  onsubmit="changeButtonText(this.querySelector('button'))">
+                <input type="hidden" name="name" value="Saharsh Jaiswal">
+                <button class="request-button" type="submit">Request Referral</button>
+            </form>
+        </div>
+        <div class="profile">
+            <img src="{{ url_for('static', filename='images/harshal.jpg') }}" alt="Profile Image">
+            <div class="profile-info">
+                <h2>Harshal Shree</h2>
+                <p>Software Engineer @ Microsoft | Ex-SDE Intern at Microsoft | Smart India...</p>
+                <p>Hyderabad</p>
+            </div>
+            <form action="/request_referral_to_referrer" method="POST"  onsubmit="changeButtonText(this.querySelector('button'))">
+                <input type="hidden" name="name" value="Harshal Shree">
+                <button class="request-button" type="submit">Request Referral</button>
+            </form>
+        </div>
+        <div class="profile">
+            <img src="{{ url_for('static', filename='images/rashid.jpg') }}"  alt="Profile Image">
+            <div class="profile-info">
+                <h2>Rashid Aziz</h2>
+                <p>Microsoft | Ex- Samsung | ACM-ICPC 18</p>
+                <p>Hyderabad</p>
+            </div>
+            <form action="/request_referral_to_referrer" method="POST"  onsubmit="changeButtonText(this.querySelector('button'))">
+                <input type="hidden" name="name" value="Rashid Aziz">
+                <button class="request-button" type="submit">Request Referral</button>
+            </form>
+        </div>
+        <div class="profile">
+            <img src="{{ url_for('static', filename='images/madhur.jpg') }}" alt="Profile Image">
+            <div class="profile-info">
+                <h2>Madhur Panwar</h2>
+                <p>Research Fellow @ Microsoft Research | Adobe | Amazon | NTU | Math + CS @...</p>
+                <p>India</p>
+            </div>
+            <form action="/request_referral_to_referrer" method="POST"  onsubmit="changeButtonText(this.querySelector('button'))">
+                <input type="hidden" name="name" value="Madhur Panwar">
+                <button class="request-button" type="submit">Request Referral</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

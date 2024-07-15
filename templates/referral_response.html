@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Referral Requests</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+         
+            background-image:url({{ url_for('static', filename='images/linkedin1.png') }})
+        }
+        .header {
+            background-color: #0073b1;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        .container {
+            display: flex; /* Use flexbox for layout */
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+        }
+        .left-column {
+            width: 50%; /* 50% width for the left column */
+            padding: 20px; /* Padding for spacing */
+            box-sizing: border-box; /* Include padding in width/height */
+        }
+        .right-column {
+            width: 50%; /* 50% width for the right column */
+            padding: 20px; /* Padding for spacing */
+            box-sizing: border-box; /* Include padding in width/height */
+        }
+        .response {
+            background-color: #f9f9f9; /* Light background color */
+            height: calc(100vh - 100px); /* Full height minus header and padding */
+            padding: 20px; /* Add padding for spacing */
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Soft shadow for depth */
+            box-sizing: border-box; /* Include padding in width/height */
+            display: {% if response %}block{% else %}none{% endif %};
+        }
+        .editable-textarea {
+            width: 100%; /* Full width */
+            height: calc(100% - 40px); /* Full height minus padding */
+            padding: 10px; /* Padding for text area content */
+            border: 1px solid #ccc; /* Basic border */
+            border-radius: 5px; /* Rounded corners */
+            font-family: Arial, sans-serif; /* Set font */
+            font-size: 14px; /* Adjust font size */
+            line-height: 1.4; /* Line height for readability */
+            resize: none; /* Disable resizing */
+            box-sizing: border-box; /* Include padding in width/height */
+        }
+        .header-title {
+            font-size: 1.5em;
+            margin: 0;
+        }
+        .profiles-container {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .profile {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        .profile:last-child {
+            border-bottom: none;
+        }
+        .profile img {
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
+        }
+        .profile-info {
+            flex-grow: 1;
+        }
+        .profile-info h2 {
+            margin: 0;
+            font-size: 1.2em;
+        }
+        .profile-info p {
+            margin: 5px 0;
+            color: #666;
+        }
+        .request-button {
+            background-color: #0073b1;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .request-button:hover {
+            background-color: #005b8c;
+        }
+        .submit-button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-button:hover {
+            background-color: #0056b3;
+        }
+
+        .submit-button:active {
+            background-color: #004080;
+        }
+        
+    </style>
+
+    <script>
+        function changeButtonText() {
+            var button = document.getElementById('submitButton');
+            button.innerText = 'Requested Referral';
+        }
+    
+        function submitForm(event) {
+            event.preventDefault(); // Prevent form submission
+            changeButtonText(); // Change button text
+            // Optionally, you can perform other actions here (e.g., make AJAX request)
+        }
+    </script>
+
+</head>
+<body>
+    <div class="header">
+        <h1 class="header-title">Referral Request</h1>
+    </div>
+    <div class="container">
+        <div class="left-column">
+            <div class="response">
+                <textarea class="editable-textarea">
+                    {% if response %}
+                    {{ response }}
+                {% endif %}     
+                </textarea>
+                {% if response %}
+    <button type="submit" class="submit-button">Send Template</button>
+    {% endif %}
+            </div>
+            
+
+        </div>
+        <div class="right-column">
+            <div class="profiles-container">
+                <div class="header">
+                    <h1 class="header-title">Referral Requests left</h1>
+                </div>
+                <div class="profile">
+                    <img src="{{ url_for('static', filename='images/Sameer-Rastogi.png') }}" alt="Profile Image">
+                    <div class="profile-info">
+                        <h2>Sameer Rastogi</h2>
+                        <p>SWE @ Microsoft</p>
+                        <p>Hyderabad</p>
+                    </div>
+                    <form action="/request_referral" method="POST"  id="referralForm">
+                        <input type="hidden" name="name" value="Sameer Rastogi">
+                        <button class="request-button" type="submit" id="submitButton">
+                            {% if referral_status1 %}
+                            {{ referral_status1 }}
+                        {% else %}
+                            Request Referral
+                        {% endif %}
+                
+                        </button>
+                    </form>
+                </div>
+                <div class="profile">
+                    <img src="{{ url_for('static', filename='images/saharsh.jpg') }}" alt="Profile Image">
+                    <div class="profile-info">
+                        <h2>Saharsh Jaiswal</h2>
+                        <p>Software Engineer @ Microsoft | NIT Durgapur</p>
+                        <p>Hyderabad</p>
+                    </div>
+                    <form action="/request_referral" method="POST"  onsubmit="changeButtonText(this.querySelector('button'))">
+                        <input type="hidden" name="name" value="Saharsh Jaiswal">
+                        <button class="request-button" type="submit" id="submitButton">
+                            {% if referral_status2 %}
+                            {{ referral_status2 }}
+                        {% else %}
+                            Request Referral
+                        {% endif %}
+                
+                        </button>
+                    </form>
+                </div>
+                <div class="profile">
+                    <img src="{{ url_for('static', filename='images/harshal.jpg') }}" alt="Profile Image">
+                    <div class="profile-info">
+                        <h2>Harshal Shree</h2>
+                        <p>Software Engineer @ Microsoft | Ex-SDE Intern at Microsoft | Smart India...</p>
+                        <p>Hyderabad</p>
+                    </div>
+                    <form action="/request_referral" method="POST"  onsubmit="changeButtonText(this.querySelector('button'))">
+                        <input type="hidden" name="name" value="Harshal Shree">
+                        <button class="request-button" type="submit" id="submitButton">
+                            {% if referral_status3 %}
+                            {{ referral_status3 }}
+                        {% else %}
+                            Request Referral
+                        {% endif %}
+                
+                        </button>
+                    </form>
+                </div>
+                <div class="profile">
+                    <img src="{{ url_for('static', filename='images/rashid.jpg') }}" alt="Profile Image">
+                    <div class="profile-info">
+                        <h2>Rashid Aziz</h2>
+                        <p>Microsoft | Ex- Samsung | ACM-ICPC 18</p>
+                        <p>Hyderabad</p>
+                    </div>
+                    <form action="/request_referral" method="POST"  onsubmit="changeButtonText(this.querySelector('button'))">
+                        <input type="hidden" name="name" value="Rashid Aziz">
+                        <button class="request-button" type="submit" id="submitButton">
+                            {% if referral_status4 %}
+                            {{ referral_status4 }}
+                        {% else %}
+                            Request Referral
+                        {% endif %}
+                
+                        </button>
+                    </form>
+                </div>
+                <div class="profile">
+                    <img src="{{ url_for('static', filename='images/madhur.jpg') }}" alt="Profile Image">
+                    <div class="profile-info">
+                        <h2>Madhur Panwar</h2>
+                        <p>Research Fellow @ Microsoft Research | Adobe | Amazon | NTU | Math + CS @...</p>
+                        <p>India</p>
+                    </div>
+                    <form action="/request_referral" method="POST"  onsubmit="changeButtonText(this.querySelector('button'))">
+                        <input type="hidden" name="name" value="Madhur Panwar">
+                        <button class="request-button" type="submit" id="submitButton">
+                            {% if referral_status5 %}
+                            {{ referral_status5 }}
+                        {% else %}
+                            Request Referral
+                        {% endif %}
+                
+                        </button>
+                    </form>
+                </div>
+
+                <div class="profile">
+                    <img src="{{ url_for('static', filename='images/shanaya.jpg') }}" alt="Profile Image">
+                    <div class="profile-info">
+                        <h2>Shanaya Gupta</h2>
+                        <p>Microsoft | Ex- Samsung | ACM-ICPC 18</p>
+                        <p>India</p>
+                    </div>
+                    <form action="/request_referral" method="POST"  onsubmit="changeButtonText(this.querySelector('button'))">
+                        <input type="hidden" name="name" value="Shanaya Gupta">
+                        <button class="request-button" type="submit" id="submitButton">
+                            {% if referral_status6 %}
+                            {{ referral_status6 }}
+                        {% else %}
+                            Request Referral
+                        {% endif %}
+                
+                        </button>
+                    </form>
+                </div>
+
+                <div class="profile">
+                    <img src="{{ url_for('static', filename='images/sandeep.jpg') }}" alt="Profile Image">
+                    <div class="profile-info">
+                        <h2>Sandeep Singh</h2>
+                        <p>Research Fellow @ Microsoft Research | Adobe | Amazon | NTU | Math + CS @...</p>
+                        <p>India</p>
+                    </div>
+                    <form action="/request_referral" method="POST"  onsubmit="changeButtonText(this.querySelector('button'))">
+                        <input type="hidden" name="name" value="Sandeep Singh">
+                        <button class="request-button" type="submit" id="submitButton">
+                            {% if referral_status7 %}
+                            {{ referral_status7 }}
+                        {% else %}
+                            Request Referral
+                        {% endif %}
+                
+                        </button>
+                    </form>
+                </div>
+
+                <div class="profile">
+                    <img src="{{ url_for('static', filename='images/mohan.jpg') }}" alt="Profile Image">
+                    <div class="profile-info">
+                        <h2>Mohan Lal Singh</h2>
+                        <p>Microsoft | Ex- Samsung | ACM-ICPC 18</p>
+                        <p>India</p>
+                    </div>
+                    <form action="/request_referral" method="POST"  onsubmit="changeButtonText(this.querySelector('button'))">
+                        <input type="hidden" name="name" value="Mohan Lal Singh">
+                        <button class="request-button" type="submit" id="submitButton">
+                            {% if referral_status8 %}
+                            {{ referral_status8 }}
+                        {% else %}
+                            Request Referral
+                        {% endif %}
+                
+                        </button>
+                    </form>
+                </div>
+
+                <div class="profile">
+                    <img src="{{ url_for('static', filename='images/satya.jpg') }}" alt="Profile Image">
+                    <div class="profile-info">
+                        <h2>Satya Reddy</h2>
+                        <p>Research Fellow @ Microsoft Research | Adobe | Amazon | NTU | Math + CS @...</p>
+                        <p>India</p>
+                    </div>
+                    <form action="/request_referral" method="POST"  onsubmit="changeButtonText(this.querySelector('button'))">
+                        <input type="hidden" name="name" value="Satya Reddy">
+                        <button class="request-button" type="submit" id="submitButton">
+                            {% if referral_status9 %}
+                            {{ referral_statu9 }}
+                        {% else %}
+                            Request Referral
+                        {% endif %}
+                
+                        </button>
+                    </form>
+                </div>
+
+                <div class="profile">
+                    <img src="{{ url_for('static', filename='images/rohit.jpg') }}" alt="Profile Image">
+                    <div class="profile-info">
+                        <h2>Rohit Kumar</h2>
+                        <p>Research Fellow @ Microsoft Research | Adobe | Amazon | NTU | Math + CS @...</p>
+                        <p>India</p>
+                    </div>
+                    <form action="/request_referral" method="POST"  onsubmit="changeButtonText(this.querySelector('button'))">
+                        <input type="hidden" name="name" value="Rohit Kumar">
+                        <button class="request-button" type="submit" id="submitButton">
+                            {% if referral_status10 %}
+                            {{ referral_status10 }}
+                        {% else %}
+                            Request Referral
+                        {% endif %}
+                
+                        </button>
+                    </form>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
